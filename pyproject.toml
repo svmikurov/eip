@@ -1,0 +1,25 @@
+[project]
+name = "eip"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Sergei Mikurov",email = "454004@mail.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+]
+
+[tool.poetry]
+packages = [{include = "eip", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.16.6,<0.17.0)",
+    "mypy (>=2.3.1,<3.0.0)",
+    "pytest (>=9.1.1,<10.0.0)"
+]
