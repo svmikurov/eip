@@ -19,8 +19,20 @@ class AbstractProducer[MessageT](ABC):
         """Send message."""
 
 
-class AbstractConsumer(ABC):
+class AbstractConsumer[MessageT](ABC):
     """ABC for Consumer."""
+
+    @abstractmethod
+    def receive(self) -> MessageT:
+        """Receive message."""
+
+    @abstractmethod
+    def handle(self, message: MessageT) -> MessageT:
+        """Handle message."""
+
+    @abstractmethod
+    def start(self) -> None:
+        """Start consumer."""
 
 
 # Channels

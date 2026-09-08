@@ -52,6 +52,6 @@ def producer(
 def consumer(
     in_memory_channel: AbstractChannel[Command],
     handler: HandlerProto[Command],
-) -> AbstractConsumer:
+) -> AbstractConsumer[Command]:
     """Provide message consumer."""
     return Consumer(channel=in_memory_channel, handler=handler)

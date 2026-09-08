@@ -1,6 +1,5 @@
 """In-memory channel tests."""
 
-
 from eip.application.messages import Command
 from eip.infrastructure.messaging.abstract import AbstractChannel
 
