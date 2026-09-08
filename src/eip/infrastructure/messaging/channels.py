@@ -35,6 +35,10 @@ class InMemoryQueue(AbstractChannel[MessageT]):
             raise QueueCircuitOpen
         self._queue.append(message)
 
+    def receive(self) -> MessageT:
+        """Receive message."""
+        return self._queue.popleft()
+
     @property
     def queue(self) -> deque[MessageT]:
         """Return a copy of the current message queue."""

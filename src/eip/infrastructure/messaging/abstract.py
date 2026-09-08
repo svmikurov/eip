@@ -34,6 +34,10 @@ class AbstractChannel[MessageT](ABC):
     def send(self, message: MessageT) -> None:
         """Send message."""
 
+    @abstractmethod
+    def receive(self) -> MessageT:
+        """Receive message."""
+
     @property
     @abstractmethod
     def queue(self) -> Sequence[MessageT]:
