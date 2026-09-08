@@ -4,6 +4,8 @@ from typing import Protocol, TypeVar
 
 Query_co = TypeVar("Query_co", covariant=True)
 Command_contra = TypeVar("Command_contra", contravariant=True)
+Command_co = TypeVar("Command_co", covariant=True)
+RequestID_contra = TypeVar("RequestID_contra", contravariant=True)
 Document_co = TypeVar("Document_co", covariant=True)
 
 
@@ -39,6 +41,18 @@ class DocumentMessage(
     # Body
     @property
     def body(self) -> Document_co: ...
+
+
+class RequestChannelGateway(Protocol[Command_co]):
+    """Protocol for message request channel."""
+
+    async def send(self, Command_co) -> None: ...
+
+
+class ReplyChannelGateway(Protocol[RequestID_contra, Document_co]):
+    """Protocol for message request channel."""
+
+    async def receive(self, request_id: RequestID_contra) -> Document_co: ...
 
 
 class ConsumerProto(Protocol[Document_co]):

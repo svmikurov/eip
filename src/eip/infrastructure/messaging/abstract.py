@@ -1,4 +1,4 @@
-"""Abstract base classes for Message Channels."""
+"""Abstract base classes for Messaging."""
 
 from abc import ABC, abstractmethod
 from typing import TypeVar
@@ -6,21 +6,29 @@ from typing import TypeVar
 MessageT = TypeVar("MessageT")
 
 
-class AbstractRequestQueue[MessageT](ABC):
-    """ABC for Point-to-Point Request channel.
+# Endpoints
+# ~~~~~~~~~
 
-    Used by the requestor to send a request message
-    to a single replier.
-    """
+
+class AbstractProducer[MessageT](ABC):
+    """ABC for Producer."""
 
     @abstractmethod
     def send(self, message: MessageT) -> None:
-        """Send message to channel."""
+        """Send message."""
 
 
-class AbstractReplyQueue(ABC):
-    """ABC for Point-to-Point Reply channel.
+class AbstractConsumer(ABC):
+    """ABC for Consumer."""
 
-    Used by the replier to send a reply message
-    to a single requestor.
-    """
+
+# Channels
+# ~~~~~~~~
+
+
+class AbstractChannel[MessageT](ABC):
+    """ABC for Message Channel."""
+
+    @abstractmethod
+    def send(self, message: MessageT) -> None:
+        """Send message."""

@@ -1,17 +1,19 @@
-"""Message layer.
-
-Base messaging component — Message (EIP, p. 98).
-"""
+"""Messages (EIP, p. 98)."""
 
 from dataclasses import dataclass
 
 
 @dataclass
-class PredictionCommand:
-    """Command message requesting a prediction.
+class Command:
+    """Simple Command Message."""
 
-    Sender sets correlation_id and reply_to to receive the response.
-    """
+    request_id: str
+    body: str = ""
+
+
+@dataclass
+class PredictionCommand:
+    """Command message requesting a prediction."""
 
     request_id: str
     correlation_id: str | None = None
@@ -21,10 +23,7 @@ class PredictionCommand:
 
 @dataclass
 class PredictionDocument:
-    """Response message containing the prediction result.
-
-    Carries the same correlation_id as the original request.
-    """
+    """Response message containing the prediction result."""
 
     request_id: str
     correlation_id: str

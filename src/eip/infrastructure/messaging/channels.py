@@ -7,16 +7,16 @@ from collections import deque
 from copy import deepcopy
 from typing import TypeVar, override
 
-from .abstract import AbstractReplyQueue, AbstractRequestQueue
+from .abstract import AbstractChannel
 from .exceptions import QueueCircuitOpen
 
 MessageT = TypeVar("MessageT")
 
 
-class InMemoryRequestQueue(AbstractRequestQueue[MessageT]):
-    """In-memory Point-to-Point Request channel."""
+class InMemoryQueue(AbstractChannel[MessageT]):
+    """In-memory Point-to-Point Channel."""
 
-    DEFAULT_QUEUE_MAX_LEN = 300
+    DEFAULT_QUEUE_MAX_LEN = 5
 
     def __init__(
         self,
@@ -44,15 +44,3 @@ class InMemoryRequestQueue(AbstractRequestQueue[MessageT]):
     def is_full_queue(self) -> bool:
         """Check whether the queue has reached its maximum capacity."""
         return not len(self._queue) < self._queue_max_len
-
-
-class InMemoryReplyQueue(AbstractReplyQueue):
-    """In-memory Point-to-Point Reply channel."""
-
-
-class InvalidMessages:
-    """Invalid messages queue.
-
-    Used by both requestor and replier to forward malformed or
-    unprocessable messages.
-    """

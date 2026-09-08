@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from eip.application.gateways import Requestor
+from eip.application.gateways import RequestGateway
 from eip.application.messages import PredictionDocument
 from eip.application.protocols import ConsumerProto, ProducerProto
 
@@ -42,9 +42,9 @@ def requestor(
     mock_producer: ProducerProto,
     mock_consumer: ConsumerProto,
     mock_invalid_producer: ProducerProto,
-) -> Requestor:
+) -> RequestGateway:
     """Provide requestor."""
-    return Requestor(
+    return RequestGateway(
         mock_producer,
         mock_consumer,
         mock_invalid_producer,
@@ -52,10 +52,10 @@ def requestor(
 
 
 async def test_request_returns_result(
-    requestor: Requestor,
+    requestor: RequestGateway,
 ) -> None:
     # Act
-    result = await requestor.request(REQUEST_ID, CONTENT)
+    result = await requestor.send_request(REQUEST_ID, CONTENT)
 
     # Assert
     assert result == RESULT

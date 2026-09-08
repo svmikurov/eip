@@ -1,19 +1,37 @@
 """Message Endpoint (EIP, p. 124)."""
 
-from eip.application.abstract import AbstractChannel
+from typing import TypeVar
+
+from eip.domain.protocols import HandlerProto
+from eip.infrastructure.messaging.abstract import AbstractChannel, AbstractConsumer
+
+from .abstract import AbstractProducer
+
+MessageT = TypeVar("MessageT")
 
 
-class Producer:
-    """Request initiator for Request-Reply Channel.
-
-    Sends a request message and waits for a reply.
-    """
+class Producer[MessageT](AbstractProducer):
+    """Request initiator."""
 
     def __init__(
         self,
-        message_channel: AbstractChannel,
+        channel: AbstractChannel[MessageT],
     ) -> None:
-        self._message_channel = message_channel
+        self._channel = channel
+
+    def send(self, message: MessageT) -> None:
+        """Send message."""
+
+
+class Consumer[MessageT](AbstractConsumer):
+    """Consumer."""
+
+    def __init__(
+        self,
+        channel: AbstractChannel[MessageT],
+        handler: HandlerProto[MessageT],
+    ) -> None:
+        super().__init__()
 
 
 class Replier:

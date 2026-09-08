@@ -3,32 +3,31 @@
 from eip.application import messages, protocols
 
 
-class Requestor:
+class RequestGateway:
     """Request-Reply Channel Requestor in a Messaging Gateway."""
 
     def __init__(
         self,
-        producer: protocols.ProducerProto,
-        customer: protocols.ConsumerProto,
-        invalid_producer: protocols.ProducerProto,
+        request_channel: protocols.RequestChannelGateway,
+        reply_channel: protocols.ReplyChannelGateway,
+        dead_letter_channel: protocols.RequestChannelGateway | None = None,
     ):
-        self._producer = producer
-        self._customer = customer
-        # TODO: Add functionality for invalid producer
-        self._invalid_producer = invalid_producer
+        self._request_channel = request_channel
+        self._reply_channel = reply_channel
+        self._dlq_channel = dead_letter_channel
 
-    async def request(self, request_id: str, content: str) -> str:
-        """Request."""
+    async def send_request(self, request_id: str, content: str) -> str:
+        """Send request."""
         command_message = messages.PredictionCommand(
             request_id=request_id,
             correlation_id=None,
             reply_to=None,
             body=content,
         )
-        await self._producer.send(command_message)
-        document_message = await self._customer.receive(request_id)
+        await self._request_channel.send(command_message)
+        document_message = await self._reply_channel.receive(request_id)
         return document_message.body
 
 
-class Replier:
+class ReplyGateway:
     """Request-Reply Channel Replier in a Messaging Gateway."""
