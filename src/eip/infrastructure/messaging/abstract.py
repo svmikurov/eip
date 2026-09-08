@@ -1,6 +1,7 @@
 """Abstract base classes for Messaging."""
 
 from abc import ABC, abstractmethod
+from collections.abc import Sequence
 from typing import TypeVar
 
 MessageT = TypeVar("MessageT")
@@ -32,3 +33,8 @@ class AbstractChannel[MessageT](ABC):
     @abstractmethod
     def send(self, message: MessageT) -> None:
         """Send message."""
+
+    @property
+    @abstractmethod
+    def queue(self) -> Sequence[MessageT]:
+        """Return a copy of the current message queue."""
