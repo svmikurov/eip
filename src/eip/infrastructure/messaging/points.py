@@ -21,6 +21,7 @@ class Producer[MessageT](AbstractProducer):
 
     def send(self, message: MessageT) -> None:
         """Send message."""
+        self._channel.send(message)
 
 
 class Consumer[MessageT](AbstractConsumer):
