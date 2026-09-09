@@ -56,5 +56,5 @@ class AbstractChannel[MessageT](ABC):
 
     @property
     @abstractmethod
-    def is_full_queue(self) -> bool:
+    def is_full(self) -> bool:
         """Check whether the queue has reached its maximum capacity."""

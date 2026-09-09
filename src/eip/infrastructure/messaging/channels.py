@@ -34,7 +34,7 @@ class InMemoryQueue(AbstractChannel[MessageT]):
     async def send(self, message: MessageT) -> None:
         """Send a message to the channel."""
         # TODO: Add Dead Letter Channel
-        if self.is_full_queue:
+        if self.is_full:
             raise QueueCircuitOpen
         await self._queue.put(message)
 
@@ -51,6 +51,6 @@ class InMemoryQueue(AbstractChannel[MessageT]):
 
     @property
     @override
-    def is_full_queue(self) -> bool:
+    def is_full(self) -> bool:
         """Check whether the queue has reached its maximum capacity."""
         return self._queue.full()
