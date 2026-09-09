@@ -39,9 +39,9 @@ def mock_invalid_producer() -> Mock:
 
 @pytest.fixture
 def requestor(
-    mock_producer: ProducerProto,
-    mock_consumer: ConsumerProto,
-    mock_invalid_producer: ProducerProto,
+    mock_producer: Mock,
+    mock_consumer: Mock,
+    mock_invalid_producer: Mock,
 ) -> RequestGateway:
     """Provide requestor."""
     return RequestGateway(

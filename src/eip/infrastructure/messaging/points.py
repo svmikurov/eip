@@ -3,14 +3,17 @@
 from typing import TypeVar, override
 
 from eip.domain.protocols import HandlerProto
-from eip.infrastructure.messaging.abstract import AbstractChannel, AbstractConsumer
+from eip.infrastructure.messaging.abstract import (
+    AbstractChannel,
+    AbstractConsumer,
+)
 
 from .abstract import AbstractProducer
 
 MessageT = TypeVar("MessageT")
 
 
-class Producer[MessageT](AbstractProducer):
+class Producer(AbstractProducer[MessageT]):
     """Request initiator."""
 
     def __init__(
@@ -25,7 +28,7 @@ class Producer[MessageT](AbstractProducer):
         self._channel.send(message)
 
 
-class Consumer[MessageT](AbstractConsumer):
+class Consumer(AbstractConsumer[MessageT]):
     """Consumer."""
 
     def __init__(

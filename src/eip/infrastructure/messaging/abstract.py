@@ -27,7 +27,7 @@ class AbstractConsumer[MessageT](ABC):
         """Receive message."""
 
     @abstractmethod
-    def handle(self, message: MessageT) -> MessageT:
+    def handle(self, message: MessageT) -> None:
         """Handle message."""
 
     @abstractmethod

@@ -43,10 +43,10 @@ class DocumentMessage(
     def body(self) -> Document_co: ...
 
 
-class RequestChannelGateway(Protocol[Command_co]):
+class RequestChannelGateway(Protocol[Command_contra]):
     """Protocol for message request channel."""
 
-    async def send(self, Command_co) -> None: ...
+    async def send(self, message: Command_contra) -> None: ...
 
 
 class ReplyChannelGateway(Protocol[RequestID_contra, Document_co]):
