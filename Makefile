@@ -14,7 +14,7 @@ type-check:
 	poetry run mypy .
 
 test:
-	poetry run pytest -v
+	poetry run pytest --cov=src/eip --cov-report=html
 
 check: format fix type-check test
 
