@@ -8,9 +8,9 @@ from eip.application.gateways import RequestGateway
 from eip.application.messages import PredictionDocument
 from eip.application.protocols import ConsumerProto, ProducerProto
 
-REQUEST_ID = "123ABC"
-CONTENT = "Text"
-RESULT = "Result"
+REQUEST_ID = '123ABC'
+CONTENT = 'Text'
+RESULT = 'Result'
 
 
 @pytest.fixture

@@ -2,11 +2,11 @@
 
 from typing import Protocol, TypeVar
 
-Query_co = TypeVar("Query_co", covariant=True)
-Command_contra = TypeVar("Command_contra", contravariant=True)
-Command_co = TypeVar("Command_co", covariant=True)
-RequestID_contra = TypeVar("RequestID_contra", contravariant=True)
-Document_co = TypeVar("Document_co", covariant=True)
+Query_co = TypeVar('Query_co', covariant=True)
+Command_contra = TypeVar('Command_contra', contravariant=True)
+Command_co = TypeVar('Command_co', covariant=True)
+RequestID_contra = TypeVar('RequestID_contra', contravariant=True)
+Document_co = TypeVar('Document_co', covariant=True)
 
 
 class MessageProto(Protocol):
@@ -58,7 +58,9 @@ class ReplyChannelGateway(Protocol[RequestID_contra, Document_co]):
 class ConsumerProto(Protocol[Document_co]):
     """Protocol for consumer interface."""
 
-    async def receive(self, request_id: str) -> DocumentMessage[Document_co]: ...
+    async def receive(
+        self, request_id: str
+    ) -> DocumentMessage[Document_co]: ...
 
 
 class ProducerProto(Protocol[Command_contra]):

@@ -14,7 +14,8 @@ class RequestGateway:
         self,
         request_channel: RequestChannelGateway[PredictionCommand],
         reply_channel: ReplyChannelGateway[str, PredictionCommand],
-        dead_letter_channel: RequestChannelGateway[PredictionCommand] | None = None,
+        dead_letter_channel: RequestChannelGateway[PredictionCommand]
+        | None = None,
     ):
         self._request_channel = request_channel
         self._reply_channel = reply_channel

@@ -2,7 +2,7 @@
 
 from typing import Protocol, TypeVar
 
-MessageT = TypeVar("MessageT")
+MessageT = TypeVar('MessageT')
 
 
 class HandlerProto[MessageT](Protocol):

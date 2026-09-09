@@ -14,8 +14,8 @@ from eip.infrastructure.messaging.abstract import (
 from eip.infrastructure.messaging.channels import InMemoryQueue
 from eip.infrastructure.messaging.points import Consumer, Producer
 
-REQUEST_ID = "123abc"
-COMMAND_BODY = "Command body"
+REQUEST_ID = '123abc'
+COMMAND_BODY = 'Command body'
 
 
 @pytest.fixture

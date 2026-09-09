@@ -10,7 +10,7 @@ from eip.infrastructure.messaging.abstract import (
 
 from .abstract import AbstractProducer
 
-MessageT = TypeVar("MessageT")
+MessageT = TypeVar('MessageT')
 
 
 class Producer(AbstractProducer[MessageT]):

@@ -10,7 +10,7 @@ from typing import TypeVar, override
 from .abstract import AbstractChannel
 from .exceptions import QueueCircuitOpen
 
-MessageT = TypeVar("MessageT")
+MessageT = TypeVar('MessageT')
 
 
 class InMemoryQueue(AbstractChannel[MessageT]):
@@ -23,7 +23,9 @@ class InMemoryQueue(AbstractChannel[MessageT]):
         queue_max_len: int | None = None,
     ) -> None:
         self._queue_max_len = (
-            queue_max_len if queue_max_len is not None else self.DEFAULT_QUEUE_MAX_LEN
+            queue_max_len
+            if queue_max_len is not None
+            else self.DEFAULT_QUEUE_MAX_LEN
         )
         self._queue: deque[MessageT] = deque(maxlen=self._queue_max_len)
 
@@ -41,7 +43,7 @@ class InMemoryQueue(AbstractChannel[MessageT]):
 
     @property
     def queue(self) -> deque[MessageT]:
-        """Return a copy of the current message queue."""
+        """Copy of the current message queue."""
         return deepcopy(self._queue)
 
     @property

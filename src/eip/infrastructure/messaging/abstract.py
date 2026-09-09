@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Sequence
 from typing import TypeVar
 
-MessageT = TypeVar("MessageT")
+MessageT = TypeVar('MessageT')
 
 
 # Endpoints
@@ -53,4 +53,4 @@ class AbstractChannel[MessageT](ABC):
     @property
     @abstractmethod
     def queue(self) -> Sequence[MessageT]:
-        """Return a copy of the current message queue."""
+        """Copy of the current message queue."""

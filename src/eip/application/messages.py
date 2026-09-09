@@ -8,7 +8,7 @@ class Command:
     """Simple Command Message."""
 
     request_id: str
-    body: str = ""
+    body: str = ''
 
 
 @dataclass
@@ -18,7 +18,7 @@ class PredictionCommand:
     request_id: str
     correlation_id: str | None = None
     reply_to: str | None = None
-    body: str = ""
+    body: str = ''
 
 
 @dataclass
@@ -27,4 +27,4 @@ class PredictionDocument:
 
     request_id: str
     correlation_id: str
-    body: str = ""
+    body: str = ''
