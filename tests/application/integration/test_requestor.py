@@ -51,7 +51,7 @@ def requestor(
     )
 
 
-async def test_request_returns_result(
+async def test_requestor_returns_result(
     requestor: RequestGateway,
 ) -> None:
     # Act

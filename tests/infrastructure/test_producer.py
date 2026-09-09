@@ -26,13 +26,13 @@ def producer(
     return Producer(channel=mock_channel)
 
 
-def test_producer_sent_message_to_channel(
+async def test_producer_sends_command_to_channel(
     command: Command,
     mock_channel: Mock,
     producer: AbstractProducer[Command],
 ) -> None:
     # Act
-    producer.send(command)
+    await producer.send(command)
 
     # Assert
     mock_channel.send.assert_called_once_with(command)

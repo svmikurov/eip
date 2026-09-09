@@ -1,4 +1,4 @@
-"""Sync Polling Consumer tests."""
+"""Polling Consumer tests."""
 
 from unittest.mock import Mock
 
@@ -9,15 +9,15 @@ from eip.infrastructure.messaging.abstract import (
 )
 
 
-def test_handler_consumer_called_with_command(
+async def test_consumer_calls_handler_with_command(
     command: Command,
     producer: AbstractProducer[Command],
     consumer: AbstractConsumer[Command],
     handler: Mock,
 ) -> None:
     # Act
-    producer.send(command)
-    consumer.start()
+    await producer.send(command)
+    await consumer.start()
 
     # Assert
     handler.handle.assert_called_once_with(command)

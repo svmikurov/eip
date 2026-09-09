@@ -3,7 +3,7 @@
 Base messaging component — Message Channel (EIP, p. 93).
 """
 
-from collections import deque
+import asyncio
 from typing import TypeVar, override
 
 from .abstract import AbstractChannel
@@ -26,28 +26,31 @@ class InMemoryQueue(AbstractChannel[MessageT]):
             if queue_max_len is not None
             else self.DEFAULT_QUEUE_MAX_LEN
         )
-        self._queue: deque[MessageT] = deque(maxlen=self._queue_max_len)
+        self._queue: asyncio.Queue[MessageT] = asyncio.Queue(
+            maxsize=self._queue_max_len
+        )
 
     @override
-    def send(self, message: MessageT) -> None:
+    async def send(self, message: MessageT) -> None:
         """Send a message to the channel."""
         # TODO: Add Dead Letter Channel
         if self.is_full_queue:
             raise QueueCircuitOpen
-        self._queue.append(message)
+        await self._queue.put(message)
 
     @override
-    def receive(self) -> MessageT:
+    async def receive(self) -> MessageT:
         """Receive message."""
-        return self._queue.popleft()
+        return await self._queue.get()
+
+    @property
+    @override
+    def is_empty(self) -> bool:
+        """Check whether the queue is empty."""
+        return self._queue.empty()
 
     @property
     @override
     def is_full_queue(self) -> bool:
         """Check whether the queue has reached its maximum capacity."""
-        return not len(self._queue) < self._queue_max_len
-
-    @override
-    def has_message(self, message: MessageT) -> bool:
-        """Check whether the queue has specific message."""
-        return message in self._queue
+        return self._queue.full()

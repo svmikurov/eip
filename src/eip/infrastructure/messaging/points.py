@@ -23,9 +23,9 @@ class Producer(AbstractProducer[MessageT]):
         self._channel = channel
 
     @override
-    def send(self, message: MessageT) -> None:
+    async def send(self, message: MessageT) -> None:
         """Send message."""
-        self._channel.send(message)
+        await self._channel.send(message)
 
 
 class Consumer(AbstractConsumer[MessageT]):
@@ -41,20 +41,20 @@ class Consumer(AbstractConsumer[MessageT]):
         self._got_message = False
 
     @override
-    def receive(self) -> MessageT:
+    async def receive(self) -> MessageT:
         """Receive message."""
-        return self._channel.receive()
+        return await self._channel.receive()
 
     @override
-    def handle(self, message: MessageT) -> None:
+    async def handle(self, message: MessageT) -> None:
         """Handle message."""
         self._handler.handle(message)
 
-    def start(self) -> None:
+    async def start(self) -> None:
         """Start consumer."""
         self._got_message = False
         while not self._got_message:
-            message = self.receive()
+            message = await self.receive()
             if message:
                 self._handler.handle(message)
                 self._got_message = True

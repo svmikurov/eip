@@ -14,7 +14,7 @@ class AbstractProducer[MessageT](ABC):
     """ABC for Producer."""
 
     @abstractmethod
-    def send(self, message: MessageT) -> None:
+    async def send(self, message: MessageT) -> None:
         """Send message."""
 
 
@@ -22,15 +22,15 @@ class AbstractConsumer[MessageT](ABC):
     """ABC for Consumer."""
 
     @abstractmethod
-    def receive(self) -> MessageT:
+    async def receive(self) -> MessageT:
         """Receive message."""
 
     @abstractmethod
-    def handle(self, message: MessageT) -> None:
+    async def handle(self, message: MessageT) -> None:
         """Handle message."""
 
     @abstractmethod
-    def start(self) -> None:
+    async def start(self) -> None:
         """Start consumer."""
 
 
@@ -42,16 +42,17 @@ class AbstractChannel[MessageT](ABC):
     """ABC for Message Channel."""
 
     @abstractmethod
-    def send(self, message: MessageT) -> None:
+    async def send(self, message: MessageT) -> None:
         """Send message."""
 
     @abstractmethod
-    def receive(self) -> MessageT:
+    async def receive(self) -> MessageT:
         """Receive message."""
 
+    @property
     @abstractmethod
-    def has_message(self, message: MessageT) -> bool:
-        """Check whether the queue has specific message."""
+    def is_empty(self) -> bool:
+        """Check whether the queue is empty."""
 
     @property
     @abstractmethod

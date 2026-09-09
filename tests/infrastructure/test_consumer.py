@@ -22,33 +22,33 @@ def consumer(
     return Consumer(channel=in_memory_channel, handler=handler)
 
 
-def test_consumer_received_message_from_channel(
+async def test_consumer_receives_message_from_channel_and_removes_it(
     command: Command,
     in_memory_channel: AbstractChannel[Command],
     consumer: AbstractConsumer[Command],
 ) -> None:
     # Arrange
-    in_memory_channel.send(command)
+    await in_memory_channel.send(command)
 
     # Act
-    message = consumer.receive()
+    message = await consumer.receive()
 
     # Assert
     assert message is command
-    assert not in_memory_channel.has_message(command)
+    assert in_memory_channel.is_empty
 
 
-def test_consumer_call_handler(
+async def test_consumer_calls_handler_when_message_received(
     command: Command,
     in_memory_channel: AbstractChannel[Command],
     consumer: AbstractConsumer[Command],
     handler: Mock,
 ) -> None:
     # Arrange
-    in_memory_channel.send(command)
+    await in_memory_channel.send(command)
 
     # Act
-    consumer.handle(command)
+    await consumer.handle(command)
 
     # Assert
     handler.handle.assert_called_once_with(command)
