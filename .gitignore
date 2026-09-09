@@ -3,3 +3,5 @@ __pycache__
 _statics
 build
 *.bkp
+.coverage
+htmlcov
