@@ -8,19 +8,18 @@ from eip.application.messages import Command
 from eip.domain.protocols import HandlerProto
 from eip.infrastructure.messaging.abstract import (
     AbstractChannel,
-    AbstractConsumer,
     AbstractProducer,
 )
 from eip.infrastructure.messaging.channels import InMemoryQueue
-from eip.infrastructure.messaging.points import Consumer, Producer
+from eip.infrastructure.messaging.points import Producer
 
 REQUEST_ID = '123abc'
 COMMAND_BODY = 'Command body'
 
 
 @pytest.fixture
-def handler() -> Mock:
-    """Provide message Handler."""
+def mock_handler() -> Mock:
+    """Provide message Handler mock."""
     return Mock(spec=HandlerProto)
 
 
@@ -46,12 +45,3 @@ def producer(
 ) -> AbstractProducer[Command]:
     """Provide Producer."""
     return Producer(channel=in_memory_channel)
-
-
-@pytest.fixture
-def consumer(
-    in_memory_channel: AbstractChannel[Command],
-    handler: HandlerProto[Command],
-) -> AbstractConsumer[Command]:
-    """Provide message consumer."""
-    return Consumer(channel=in_memory_channel, handler=handler)

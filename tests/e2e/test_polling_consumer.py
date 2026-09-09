@@ -1,5 +1,6 @@
-"""Consumer tests."""
+"""Polling Consumer tests."""
 
+import asyncio
 from unittest.mock import Mock
 
 import pytest
@@ -9,6 +10,7 @@ from eip.domain.protocols import HandlerProto
 from eip.infrastructure.messaging.abstract import (
     AbstractChannel,
     AbstractConsumer,
+    AbstractProducer,
 )
 from eip.infrastructure.messaging.points import Consumer
 
@@ -18,37 +20,26 @@ def consumer(
     in_memory_channel: AbstractChannel[Command],
     mock_handler: HandlerProto[Command],
 ) -> AbstractConsumer[Command]:
-    """Provide consumer."""
+    """Provide message consumer."""
     return Consumer(channel=in_memory_channel, handler=mock_handler)
 
 
-async def test_consumer_receives_message_from_channel_and_removes_it(
+async def test_consumer_calls_handler_with_command(
     command: Command,
-    in_memory_channel: AbstractChannel[Command],
-    consumer: AbstractConsumer[Command],
-) -> None:
-    # Arrange
-    await in_memory_channel.send(command)
-
-    # Act
-    message = await consumer.receive()
-
-    # Assert
-    assert message is command
-    assert in_memory_channel.is_empty
-
-
-async def test_consumer_calls_handler_when_message_received(
-    command: Command,
-    in_memory_channel: AbstractChannel[Command],
+    producer: AbstractProducer[Command],
     consumer: AbstractConsumer[Command],
     mock_handler: Mock,
 ) -> None:
     # Arrange
-    await in_memory_channel.send(command)
+    task = asyncio.create_task(consumer.start())
+    await asyncio.sleep(0.1)
 
     # Act
-    await consumer.handle(command)
+    await producer.send(command)
+    await asyncio.sleep(0.1)
 
     # Assert
     mock_handler.handle.assert_called_once_with(command)
+
+    # Teardown
+    task.cancel()

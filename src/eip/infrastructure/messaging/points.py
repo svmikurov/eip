@@ -38,7 +38,6 @@ class Consumer(AbstractConsumer[MessageT]):
     ) -> None:
         self._channel = channel
         self._handler = handler
-        self._got_message = False
 
     @override
     async def receive(self) -> MessageT:
@@ -52,12 +51,10 @@ class Consumer(AbstractConsumer[MessageT]):
 
     async def start(self) -> None:
         """Start consumer."""
-        self._got_message = False
-        while not self._got_message:
+        while True:
             message = await self.receive()
             if message:
                 self._handler.handle(message)
-                self._got_message = True
 
 
 class Replier:
