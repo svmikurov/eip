@@ -1,7 +1,6 @@
 """Abstract base classes for Messaging."""
 
 from abc import ABC, abstractmethod
-from collections.abc import Sequence
 from typing import TypeVar
 
 MessageT = TypeVar('MessageT')
@@ -50,7 +49,11 @@ class AbstractChannel[MessageT](ABC):
     def receive(self) -> MessageT:
         """Receive message."""
 
+    @abstractmethod
+    def has_message(self, message: MessageT) -> bool:
+        """Check whether the queue has specific message."""
+
     @property
     @abstractmethod
-    def queue(self) -> Sequence[MessageT]:
-        """Copy of the current message queue."""
+    def is_full_queue(self) -> bool:
+        """Check whether the queue has reached its maximum capacity."""

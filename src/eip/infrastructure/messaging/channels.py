@@ -4,7 +4,6 @@ Base messaging component — Message Channel (EIP, p. 93).
 """
 
 from collections import deque
-from copy import deepcopy
 from typing import TypeVar, override
 
 from .abstract import AbstractChannel
@@ -37,16 +36,18 @@ class InMemoryQueue(AbstractChannel[MessageT]):
             raise QueueCircuitOpen
         self._queue.append(message)
 
+    @override
     def receive(self) -> MessageT:
         """Receive message."""
         return self._queue.popleft()
 
     @property
-    def queue(self) -> deque[MessageT]:
-        """Copy of the current message queue."""
-        return deepcopy(self._queue)
-
-    @property
+    @override
     def is_full_queue(self) -> bool:
         """Check whether the queue has reached its maximum capacity."""
         return not len(self._queue) < self._queue_max_len
+
+    @override
+    def has_message(self, message: MessageT) -> bool:
+        """Check whether the queue has specific message."""
+        return message in self._queue

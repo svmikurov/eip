@@ -35,7 +35,7 @@ def test_consumer_received_message_from_channel(
 
     # Assert
     assert message is command
-    assert message not in in_memory_channel.queue
+    assert not in_memory_channel.has_message(command)
 
 
 def test_consumer_call_handler(

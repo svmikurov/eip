@@ -12,7 +12,7 @@ def test_channel_added_message_to_queue(
     in_memory_channel.send(command)
 
     # Assert
-    assert command in in_memory_channel.queue
+    assert in_memory_channel.has_message(command)
 
 
 def test_channel_receive_message_from_queue(
@@ -26,7 +26,6 @@ def test_channel_receive_message_from_queue(
     message = in_memory_channel.receive()
 
     # Assert
-    assert command not in in_memory_channel.queue
     assert message is not None
     assert message is command
-    assert message not in in_memory_channel.queue
+    assert not in_memory_channel.has_message(command)
