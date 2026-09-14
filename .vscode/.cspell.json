@@ -24,6 +24,16 @@
     "сратегия",
     "ендпойнтов",
     // 
-    "Микуров"
+    "Микуров",
+    // -- Sockets --
+    // Naming
+    "sock",               // socket
+    "lsock",              // listenibg socket
+    "inb",
+    "outb",
+    "fileobj",            // File object
+    "connid",             // Connection ID
+    "multiconn",          // Multy-connection
+    // - EndSockets -
   ],
 }
