@@ -1,3 +1,5 @@
+include mk/infrastructure.mk
+
 setup:
 	poetry install
 
@@ -21,3 +23,10 @@ check: format fix type-check test
 .PHONY: docs
 docs:
 	poetry run make -C docs clean html
+
+help:
+	@echo "======================"
+	@echo "Makefile commands help"
+	@echo "======================"
+	@echo ""
+	@echo "help-infra	Infrastructure layer development Make commands help"
