@@ -1,4 +1,4 @@
-"""Socket server."""
+"""Echo socket server."""
 
 import socket
 

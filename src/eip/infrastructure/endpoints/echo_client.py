@@ -1,4 +1,4 @@
-"""Socket clients."""
+"""Echo socket client."""
 
 import socket
 from typing import TypeVar
