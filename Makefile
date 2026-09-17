@@ -30,3 +30,4 @@ help:
 	@echo "======================"
 	@echo ""
 	@echo "help-infra	Infrastructure layer development Make commands help"
+	@$(MAKE) --no-print-directory help-infra
