@@ -141,7 +141,6 @@ try:
         # кортежей (SelectorKey, mask) — по одному на каждый
         # готовый сокет.
         # https://docs.python.org/3/library/selectors.html
-        #   #selectors.SelectorKey
         events = sel.select(timeout=None)
 
         for key, mask in events:
