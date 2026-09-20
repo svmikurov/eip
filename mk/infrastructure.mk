@@ -29,7 +29,7 @@ run-socket-app-client:  # Run application socket client with args
 build-socket-http-server:  # Build HTTP socket server Docker image
 	docker build -f docker/infrastructure/socket/Dockerfile -t socket-http-server .
 
-run-socket-http-server:  # Run HTTP socket server Docker container
+run-socket-http-server:  # Run HTTP socket server Docker container on: 127.0.0.1:8001
 	docker run -d --rm --name socket-http-server -p 8001:8000 socket-http-server
 
 stop-socket-http-server:  # Stop HTTP socket server Docker container
@@ -52,6 +52,8 @@ help-infra:
 	@echo "run-socket-multiconn-client	Run socket multi-connect client example (with args)"
 	@echo "run-socket-app-server		Run application socket server (with args)"
 	@echo "run-socket-app-client		Run application socket client (with args)"
+	@echo ""
 	@echo "build-socket-http-server	Build HTTP socket server Docker image"
-	@echo "run-socket-http-server		Run HTTP socket server Docker container"
+	@echo "run-socket-http-server		Run HTTP socket server Docker container on: 127.0.0.1:8001"
+	@echo "stop-socket-http-server		Stop HTTP socket server Docker container"
 	@echo ""
