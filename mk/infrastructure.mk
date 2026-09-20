@@ -30,7 +30,7 @@ build-socket-http-server:  # Build HTTP socket server Docker image
 	docker build -f docker/infrastructure/socket/Dockerfile -t socket-http-server .
 
 run-socket-http-server:  # Run HTTP socket server Docker container on: 127.0.0.1:8001
-	docker run -d --rm --name socket-http-server -p 8001:8000 socket-http-server
+	docker run --rm --name socket-http-server -p 8001:8000 socket-http-server
 
 stop-socket-http-server:  # Stop HTTP socket server Docker container
 	docker stop socket-http-server
