@@ -17,7 +17,5 @@ help-docs:
 	@echo "Documentation Make commands"
 	@echo "=================================================================="
 	@echo ""
-	@echo "Environment commands"
-	@echo "===================="
-	@echo "docs-build		Build documentation"
+	@echo "docs-build			Build documentation"
 	@echo ""

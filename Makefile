@@ -1,36 +1,20 @@
 include mk/docs.mk
 include mk/infrastructure.mk
+include mk/code_quality.mk
 
 setup:
 	poetry install
 
-lint:
-	poetry run ruff check
-
-fix:
-	poetry run ruff check --fix
-	
-format:
-	poetry run ruff format
-
-type-check:
-	poetry run mypy .
-
-test:
-	poetry run pytest --cov=src/eip --cov-report=html
-
-check: format fix type-check test
-
-.PHONY: docs
-docs:
-	poetry run make -C docs clean html
-
 help:
+	@$(MAKE) --no-print-directory help-docs
+	@$(MAKE) --no-print-directory help-infra
+	@$(MAKE) --no-print-directory help-code-quality
+	@echo ""
 	@echo "=================================================================="
 	@echo "Makefile commands help"
 	@echo "=================================================================="
 	@echo ""
-	@echo "help-docs	Documentation Make commands only help"
-	@echo "help-infra	Infrastructure layer Make commands only help"
-	@$(MAKE) --no-print-directory help-docs
-	@$(MAKE) --no-print-directory help-infra
+	@echo "help-docs			Show only documentation commands"
+	@echo "help-infra			Show only infrastructure commands"
+	@echo "help-code-quality		Show only code quality commands"
+	@echo ""
