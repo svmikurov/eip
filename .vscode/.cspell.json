@@ -26,6 +26,8 @@
     // 
     "Микуров",
     // -- Sockets --
+    "reuseaddr",          // Reuse socket addrres on restart
+    "optname",            // Option name
     // Naming
     "sock",               // socket
     "lsock",              // listenibg socket
