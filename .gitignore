@@ -1,7 +1,15 @@
+# Environment
 .venv
 __pycache__
+
+# Documentation
 _statics
 build
-*.bkp
+
+# Test coverage
 .coverage
 htmlcov
+
+# Drawio
+*.bkp
+*.dtmp
