@@ -1,3 +1,4 @@
+include mk/docs.mk
 include mk/infrastructure.mk
 
 setup:
@@ -25,9 +26,11 @@ docs:
 	poetry run make -C docs clean html
 
 help:
-	@echo "======================"
+	@echo "=================================================================="
 	@echo "Makefile commands help"
-	@echo "======================"
+	@echo "=================================================================="
 	@echo ""
-	@echo "help-infra	Infrastructure layer development Make commands help"
+	@echo "help-docs	Documentation Make commands only help"
+	@echo "help-infra	Infrastructure layer Make commands only help"
+	@$(MAKE) --no-print-directory help-docs
 	@$(MAKE) --no-print-directory help-infra

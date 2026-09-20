@@ -1,9 +1,9 @@
 # =============================================================================
-# Infrastructure layer development Make commands
+# Infrastructure layer Make commands
 # =============================================================================
 
 # Socket commands
-# ~~~~~~~~~~~~~~~
+# ===============
 
 run-socket-server:  ## Run socket server example
 	poetry run python3 src/eip/infrastructure/endpoints/server.py
@@ -35,15 +35,17 @@ run-socket-http-server:  # Run HTTP socket server Docker container
 stop-socket-http-server:  # Stop HTTP socket server Docker container
 	docker stop socket-http-server
 
+# Help
+# ====
 
 help-infra:
 	@echo ""
-	@echo "=============================================="
-	@echo "Infrastructure layer development Make commands"
-	@echo "=============================================="
+	@echo "=================================================================="
+	@echo "Infrastructure layer Make commands"
+	@echo "=================================================================="
 	@echo ""
 	@echo "Socket commands"
-	@echo "~~~~~~~~~~~~~~~"
+	@echo "==============="
 	@echo "run-socket-server		Run socket server example"
 	@echo "run-socket-client		Run socket client example"
 	@echo "run-socket-multiconn_server	Run socket multi-connect server example (with args)"
