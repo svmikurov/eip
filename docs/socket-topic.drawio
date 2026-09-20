@@ -1,0 +1,31 @@
+<mxfile host="Electron">
+  <diagram name="Страница-1" id="FFHkhVX5hkXkz2pP9JCq">
+    <mxGraphModel dx="860" dy="531" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="HY6M72zrdEGAikZ1IYHI-1" parent="1" style="html=1;whiteSpace=wrap;" value="Socket" vertex="1">
+          <mxGeometry height="40" width="120" x="40" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="HY6M72zrdEGAikZ1IYHI-2" parent="1" style="html=1;whiteSpace=wrap;" value="In-memory queue" vertex="1">
+          <mxGeometry height="40" width="120" x="40" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="HY6M72zrdEGAikZ1IYHI-3" parent="1" style="html=1;whiteSpace=wrap;" value="Topic&lt;div&gt;Application&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="120" x="240" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="HY6M72zrdEGAikZ1IYHI-4" edge="1" parent="1" source="HY6M72zrdEGAikZ1IYHI-1" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="HY6M72zrdEGAikZ1IYHI-3" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="330" y="880" as="sourcePoint" />
+            <mxPoint x="490" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="HY6M72zrdEGAikZ1IYHI-5" edge="1" parent="1" source="HY6M72zrdEGAikZ1IYHI-2" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="HY6M72zrdEGAikZ1IYHI-3" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="330" y="880" as="sourcePoint" />
+            <mxPoint x="490" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
