@@ -24,6 +24,7 @@ run-socket-app_client:  # Run application socket client with args
 	poetry run python3 src/eip/infrastructure/endpoints/app_client.py 127.0.0.1 65432 binary 😃
 
 # Docker http socket server commands
+# ----------------------------------
 
 build-socket-http-server:  # Build HTTP socket server Docker image
 	docker build -f docker/infrastructure/socket/Dockerfile -t socket-http-server .
