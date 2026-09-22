@@ -1,18 +1,29 @@
-"""Server."""
+"""Socket echo server."""
 
 import socket
 
+# Server address
 HOST = '127.0.0.1'
-PORT = 65432
+PORT = 8080
+ADDR = (HOST, PORT)
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind((HOST, PORT))
-    s.listen()
-    conn, addr = s.accept()
+# Socket configuration
+BACKLOG = 5
+MAX_MESSAGE_LEN = 1024
+
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    sock.bind(ADDR)
+    sock.listen(BACKLOG)
+
+    conn, addr = sock.accept()
+
     with conn:
         print(f'Connected by {addr}')
+
         while True:
-            data = conn.recv(1024)
+            data = conn.recv(MAX_MESSAGE_LEN)
             if not data:
                 break
+
             conn.sendall(data)
