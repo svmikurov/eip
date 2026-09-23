@@ -1,6 +1,7 @@
 include mk/docs.mk
 include mk/infrastructure.mk
 include mk/code_quality.mk
+include mk/examples.mk
 
 setup:
 	poetry install
