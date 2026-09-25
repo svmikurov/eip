@@ -2,7 +2,7 @@
 
 import socket
 
-import examples.socket.conf as conf
+from eip.examples.socket import conf
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.bind(conf.ADDR)

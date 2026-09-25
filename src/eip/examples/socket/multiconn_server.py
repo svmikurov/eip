@@ -5,13 +5,10 @@ import socket
 import sys
 from dataclasses import dataclass
 from typing import TypeAlias, cast
+from . import conf
 
 EventMaskT: TypeAlias = int
 EventsT: TypeAlias = list[tuple[selectors.SelectorKey, EventMaskT]]
-
-MAX_MESSAGE_LEN = 1024
-
-sel = selectors.DefaultSelector()
 
 
 @dataclass
@@ -35,7 +32,7 @@ def build_socket() -> socket.socket:
     return lsock
 
 
-def add_listening_socket() -> None:
+def add_listening_socket(sel: selectors.DefaultSelector) -> None:
     """Create listening socket and register it."""
     host, port = get_args()
 
@@ -49,7 +46,7 @@ def add_listening_socket() -> None:
     sel.register(lsock, selectors.EVENT_READ, data=None)
 
 
-def accept_wrapper(lsock: socket.socket) -> None:
+def accept_wrapper(lsock: socket.socket, sel: selectors.DefaultSelector) -> None:
     """Accept the incoming connection and register it."""
     conn, addr = lsock.accept()
     print(f'Accepted connection from {addr}')
@@ -65,14 +62,14 @@ def accept_wrapper(lsock: socket.socket) -> None:
     sel.register(conn, events, data=data)
 
 
-def service_connection(key: selectors.SelectorKey, mask: int) -> None:
+def service_connection(key: selectors.SelectorKey, mask: int, sel: selectors.DefaultSelector) -> None:
     """Service connection."""
     conn = cast(socket.socket, key.fileobj)
     data: ServerData = key.data
 
     if mask & selectors.EVENT_READ:
         recv_data = conn.recv(
-            MAX_MESSAGE_LEN
+            conf.MAX_MESSAGE_LEN
         )  # Connection should be ready to read
 
         if recv_data:
@@ -93,7 +90,8 @@ def service_connection(key: selectors.SelectorKey, mask: int) -> None:
 
 def main() -> None:
     """Run server."""
-    add_listening_socket()
+    sel = selectors.DefaultSelector()
+    add_listening_socket(sel)
 
     try:
         while True:
@@ -103,9 +101,9 @@ def main() -> None:
             for key, mask in events:
                 if key.data is None:
                     lsock = cast(socket.socket, key.fileobj)
-                    accept_wrapper(lsock)
+                    accept_wrapper(lsock, sel)
                 else:
-                    service_connection(key, mask)
+                    service_connection(key, mask, sel)
 
     except KeyboardInterrupt:
         print('Caught keyboard interrupt, exiting')

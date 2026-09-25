@@ -6,10 +6,10 @@
 # ===============
 
 run-example-socket-echo-server:
-	poetry run python3 examples/socket/echo_server.py
+	poetry run python3 src/eip/examples/socket/echo_server.py
 
 run-example-socket-echo-client:
-	poetry run python3 examples/socket/echo_client.py
+	poetry run python3 src/eip/examples/socket/echo_client.py
 
 
 # Help

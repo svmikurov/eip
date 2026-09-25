@@ -4,8 +4,8 @@ import selectors
 import socket
 from dataclasses import dataclass
 from typing import cast
+from . import conf
 
-MAX_MESSAGE_LEN = 1024
 IO_EVENTS = selectors.EVENT_READ | selectors.EVENT_WRITE
 
 sel = selectors.DefaultSelector()
@@ -47,7 +47,7 @@ def service_connection(key: selectors.SelectorKey, mask: int) -> None:
     data: ClientData = key.data
 
     if mask & selectors.EVENT_READ:
-        recv_data: bytes = conn.recv(MAX_MESSAGE_LEN)
+        recv_data: bytes = conn.recv(conf.MAX_MESSAGE_LEN)
 
         if recv_data:
             print(f'Received {recv_data!r} from connection {data.conn_id}')
