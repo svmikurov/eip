@@ -97,6 +97,7 @@ def main() -> None:
 
     try:
         while True:
+            # Block until there are sockets ready for I/O.
             events: EventsT = sel.select(timeout=None)
 
             for key, mask in events:

@@ -2,19 +2,11 @@
 
 import socket
 
-# Server address
-HOST = '127.0.0.1'
-PORT = 8080
-ADDR = (HOST, PORT)
-
-# Socket configuration
-BACKLOG = 5
-MAX_MESSAGE_LEN = 1024
-
+import examples.socket.conf as conf
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-    sock.bind(ADDR)
-    sock.listen(BACKLOG)
+    sock.bind(conf.ADDR)
+    sock.listen(conf.BACKLOG)
 
     conn, addr = sock.accept()
 
@@ -22,7 +14,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         print(f'Connected by {addr}')
 
         while True:
-            data = conn.recv(MAX_MESSAGE_LEN)
+            data = conn.recv(conf.MAX_MESSAGE_LEN)
             if not data:
                 break
 
