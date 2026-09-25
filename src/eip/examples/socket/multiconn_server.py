@@ -1,11 +1,18 @@
-"""Multi-connection socket server example."""
+"""Multi-connection socket server example.
+
+Ключевое:
+- select() следит за всеми сокетами сразу.
+- Один поток обслуживает много соединений.
+- Новые клиенты принимаются, не блокируя остальных.
+"""
 
 import selectors
 import socket
 import sys
 from dataclasses import dataclass
 from typing import TypeAlias, cast
-from . import conf
+
+from eip.examples.socket import conf
 
 EventMaskT: TypeAlias = int
 EventsT: TypeAlias = list[tuple[selectors.SelectorKey, EventMaskT]]
@@ -32,7 +39,7 @@ def build_socket() -> socket.socket:
     return lsock
 
 
-def add_listening_socket(sel: selectors.DefaultSelector) -> None:
+def create_listening_socket() -> socket.socket:
     """Create listening socket and register it."""
     host, port = get_args()
 
@@ -41,12 +48,14 @@ def add_listening_socket(sel: selectors.DefaultSelector) -> None:
     lsock.setblocking(False)
 
     lsock.listen()
-    print(f'Listening on ({host, port})')
+    print(f'Listening on {host, port}')
 
-    sel.register(lsock, selectors.EVENT_READ, data=None)
+    return lsock
 
 
-def accept_wrapper(lsock: socket.socket, sel: selectors.DefaultSelector) -> None:
+def accept_wrapper(
+    lsock: socket.socket, sel: selectors.DefaultSelector
+) -> None:
     """Accept the incoming connection and register it."""
     conn, addr = lsock.accept()
     print(f'Accepted connection from {addr}')
@@ -62,7 +71,9 @@ def accept_wrapper(lsock: socket.socket, sel: selectors.DefaultSelector) -> None
     sel.register(conn, events, data=data)
 
 
-def service_connection(key: selectors.SelectorKey, mask: int, sel: selectors.DefaultSelector) -> None:
+def service_connection(
+    key: selectors.SelectorKey, mask: int, sel: selectors.DefaultSelector
+) -> None:
     """Service connection."""
     conn = cast(socket.socket, key.fileobj)
     data: ServerData = key.data
@@ -90,8 +101,9 @@ def service_connection(key: selectors.SelectorKey, mask: int, sel: selectors.Def
 
 def main() -> None:
     """Run server."""
+    listen_sock = create_listening_socket()
     sel = selectors.DefaultSelector()
-    add_listening_socket(sel)
+    sel.register(listen_sock, selectors.EVENT_READ, data=None)
 
     try:
         while True:
@@ -99,14 +111,23 @@ def main() -> None:
             events: EventsT = sel.select(timeout=None)
 
             for key, mask in events:
+                # New client have no socket data.
+                # Socket data will be set on connection accept.
+
                 if key.data is None:
-                    lsock = cast(socket.socket, key.fileobj)
-                    accept_wrapper(lsock, sel)
+                    # New client connection handling
+                    registered_sock = cast(socket.socket, key.fileobj)
+                    accept_wrapper(registered_sock, sel)
+
                 else:
+                    # Existing client connection handling
                     service_connection(key, mask, sel)
 
     except KeyboardInterrupt:
-        print('Caught keyboard interrupt, exiting')
+        print('\nCaught keyboard interrupt, exiting')
+
+    except Exception as exc:
+        print(f'Got unexpected {exc}')
 
     finally:
         sel.close()

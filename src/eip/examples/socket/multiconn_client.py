@@ -2,9 +2,10 @@
 
 import selectors
 import socket
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import cast
-from . import conf
+
+from eip.examples.socket import conf
 
 IO_EVENTS = selectors.EVENT_READ | selectors.EVENT_WRITE
 
@@ -19,18 +20,20 @@ class ClientData:
     conn_id: int
     msg_total: int
     recv_total: int = 0
-    messages: list[bytes] = []
+    messages: list[bytes] = field(default_factory=list)
     outb: bytes = b''
 
 
 def start_connection(host: str, port: int, num_conns: int) -> None:
     """Start connection."""
+    server_addr = (host, port)
+
     for conn_id in range(1, num_conns + 1):
-        print(f'Starting connection {conn_id} to {(host, port)}')
+        print(f'Starting connection {conn_id} to {server_addr}')
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setblocking(False)
-        sock.connect_ex((host, port))
+        sock.connect_ex(server_addr)
 
         data = ClientData(
             conn_id=conn_id,
