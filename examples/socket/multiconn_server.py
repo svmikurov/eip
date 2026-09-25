@@ -4,7 +4,10 @@ import selectors
 import socket
 import sys
 from dataclasses import dataclass
-from typing import cast
+from typing import TypeAlias, cast
+
+EventMaskT: TypeAlias = int
+EventsT: TypeAlias = list[tuple[selectors.SelectorKey, EventMaskT]]
 
 MAX_MESSAGE_LEN = 1024
 
@@ -93,7 +96,8 @@ def main() -> None:
     add_listening_socket()
 
     try:
-        events = sel.select(timeout=None)
+        events: EventsT = sel.select(timeout=None)
+
         for key, mask in events:
             if key.data is None:
                 lsock = cast(socket.socket, key.fileobj)
