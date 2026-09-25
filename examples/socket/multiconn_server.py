@@ -96,14 +96,15 @@ def main() -> None:
     add_listening_socket()
 
     try:
-        events: EventsT = sel.select(timeout=None)
+        while True:
+            events: EventsT = sel.select(timeout=None)
 
-        for key, mask in events:
-            if key.data is None:
-                lsock = cast(socket.socket, key.fileobj)
-                accept_wrapper(lsock)
-            else:
-                service_connection(key, mask)
+            for key, mask in events:
+                if key.data is None:
+                    lsock = cast(socket.socket, key.fileobj)
+                    accept_wrapper(lsock)
+                else:
+                    service_connection(key, mask)
 
     except KeyboardInterrupt:
         print('Caught keyboard interrupt, exiting')
