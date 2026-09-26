@@ -52,4 +52,4 @@ if __name__ == '__main__':
         asyncio.run(main(args.host, args.port))
 
     except KeyboardInterrupt:
-        print('Cought keyboard interrapt, existing')
+        print('Cought keyboard interrapt, exiting')

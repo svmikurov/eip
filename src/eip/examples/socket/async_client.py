@@ -1,5 +1,6 @@
 """Echo client on asincio."""
 
+import argparse
 import asyncio
 
 from eip.examples.socket import conf
@@ -22,5 +23,14 @@ async def main(host: str, port: int) -> None:
     await writer.wait_closed()
 
 
+def parse_args() -> argparse.Namespace:
+    """Parse args."""
+    p = argparse.ArgumentParser(description='Async echo client')
+    p.add_argument('host', help='server host, e.g. 127.0.0.1')
+    p.add_argument('port', help='server port, e.g. 8888', type=int)
+    return p.parse_args()
+
+
 if __name__ == '__main__':
-    asyncio.run(main('127.0.0.1', 8888))
+    args = parse_args()
+    asyncio.run(main(args.host, args.port))

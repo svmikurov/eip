@@ -16,9 +16,9 @@ run-select-client:
     poetry run python3 src/eip/examples/socket/multiconn_client.py
 
 # Run asyncio server example
-run-asyncio-server host port:
+run-async-server host port:
     poetry run python3 src/eip/examples/socket/async_server.py {{host}} {{port}}
 
 # Run asyncio client example
-run-asyncio-client:
-    poetry run python3 src/eip/examples/socket/async_client.py
+run-async-client host port:
+    poetry run python3 src/eip/examples/socket/async_client.py {{host}} {{port}}
