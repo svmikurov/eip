@@ -7,6 +7,12 @@ setup:
 	poetry install
 
 help:
+	@echo "=================================================================="
+	@echo "Project intall"
+	@echo "=================================================================="
+	@echo ""
+	@echo "setup				Install project"
+	@echo ""
 	@$(MAKE) --no-print-directory help-docs
 	@$(MAKE) --no-print-directory help-infra
 	@$(MAKE) --no-print-directory help-code-quality
