@@ -1,0 +1,40 @@
+"""Чтение данных из сокета."""
+
+import socket
+
+HOST = '127.0.0.1'
+PORT = 8000
+ADDR = (HOST, PORT)
+
+BUFFER_SIZE = 2
+
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+server_socket.bind(ADDR)
+server_socket.listen()
+
+
+try:
+    connection, client_address = server_socket.accept()
+    print(f'Получен запрос на подключение от {client_address}!')
+
+    buffer = b''
+
+    while buffer[-2:] != b'\r\n':
+        chunk = connection.recv(BUFFER_SIZE)
+
+        if not chunk:
+            break
+        else:
+            print(f'Получена часть данных: {chunk!r}')
+            buffer += chunk
+
+    print(f'Все данные: {buffer!r}')
+
+    connection.sendall(buffer)
+
+finally:
+    print('Закрываем сокет сервера')
+    server_socket.close()

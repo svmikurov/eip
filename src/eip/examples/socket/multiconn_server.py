@@ -73,15 +73,11 @@ def service_connection(
             data.outb = data.outb[sent:]
 
 
-def main() -> None:
+def run_server(listen_sock: socket.socket) -> None:
     """Run server."""
-    host, port = sys.argv[1], int(sys.argv[2])
-
-    listen_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    listen_sock.bind((host, port))
     listen_sock.setblocking(False)
     listen_sock.listen()
-    print(f'Listening on {host, port}')
+    print(f'Listening on {listen_sock.getsockname()}')
 
     # Listen socket for READ events only.
     selector = selectors.DefaultSelector()
@@ -113,6 +109,17 @@ def main() -> None:
 
     finally:
         selector.close()
+
+
+def main() -> None:
+    """Run server."""
+    host, port = sys.argv[1], int(sys.argv[2])
+
+    lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    lsock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # ← важно!
+    lsock.bind((host, port))
+
+    run_server(lsock)
 
 
 if __name__ == '__main__':
