@@ -155,6 +155,11 @@ def main() -> None:
     except KeyboardInterrupt:
         print('Caught keyboard interrupt, exiting')
 
+    except ConnectionRefusedError:
+        print(
+            f'Connection refused: server not running on {host}:{port}, exiting'
+        )
+
     finally:
         # Освобождаем ресурсы селектора
         # (снимает все регистрации сокетов).
