@@ -27,48 +27,22 @@ class ServerData:
     outb: bytes = b''
 
 
-def get_args() -> tuple[str, int]:
-    """Get args of server run command."""
-    host, port = sys.argv[1], int(sys.argv[2])
-    return host, port
-
-
-def build_socket() -> socket.socket:
-    """Build listen socket."""
-    lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    return lsock
-
-
-def create_listening_socket() -> socket.socket:
-    """Create listening socket and register it."""
-    host, port = get_args()
-
-    lsock = build_socket()
-    lsock.bind((host, port))
-    lsock.setblocking(False)
-
-    lsock.listen()
-    print(f'Listening on {host, port}')
-
-    return lsock
-
-
 def accept_wrapper(
-    lsock: socket.socket, sel: selectors.DefaultSelector
+    listen_sock: socket.socket, sel: selectors.DefaultSelector
 ) -> None:
     """Accept the incoming connection and register it."""
-    conn, addr = lsock.accept()
+    conn_sock, addr = listen_sock.accept()
     print(f'Accepted connection from {addr}')
 
     # Configure the connection socket in non-blocking mode
-    conn.setblocking(False)
+    conn_sock.setblocking(False)
 
     data = ServerData(addr=addr)
     # send() может заблокироваться, если буфер отправки полон.
     # Чтобы не блокировать цикл — ждём EVENT_WRITE
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
 
-    sel.register(conn, events, data=data)
+    sel.register(conn_sock, events, data=data)
 
 
 def service_connection(
@@ -101,28 +75,35 @@ def service_connection(
 
 def main() -> None:
     """Run server."""
-    listen_sock = create_listening_socket()
-    sel = selectors.DefaultSelector()
-    # Пока небыло соединений, только слушаем
-    sel.register(listen_sock, selectors.EVENT_READ, data=None)
+    host, port = sys.argv[1], int(sys.argv[2])
+
+    listen_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    listen_sock.bind((host, port))
+    listen_sock.setblocking(False)
+    listen_sock.listen()
+    print(f'Listening on {host, port}')
+
+    # Listen socket for READ events only.
+    selector = selectors.DefaultSelector()
+    selector.register(listen_sock, selectors.EVENT_READ, data=None)
 
     try:
         while True:
             # Block until there are sockets ready for I/O (read/write).
-            events: EventsT = sel.select(timeout=None)
+            events: EventsT = selector.select(timeout=None)
 
             for key, mask in events:
                 # New client have no socket data.
                 # Socket data will be set on connection accept.
 
-                # New client connection handling
+                # Accept the incoming connection and register it.
                 if key.data is None:
                     registered_sock = cast(socket.socket, key.fileobj)
-                    accept_wrapper(registered_sock, sel)
+                    accept_wrapper(registered_sock, selector)
 
-                # Existing client connection handling
+                # Service registred connection.
                 else:
-                    service_connection(key, mask, sel)
+                    service_connection(key, mask, selector)
 
     except KeyboardInterrupt:
         print('\nCaught keyboard interrupt, exiting')
@@ -131,7 +112,7 @@ def main() -> None:
         print(f'Got unexpected {exc}')
 
     finally:
-        sel.close()
+        selector.close()
 
 
 if __name__ == '__main__':
