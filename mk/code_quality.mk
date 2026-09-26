@@ -35,7 +35,9 @@ test:  # Run tests
 
 ci: lint type-check test  # CI check (read-only: lint + type-check + test)
 
-check: format fix type-check test  # Full check (format + fix + type-check + test)
+check-code: format fix type-check  # Check code (format + fix + type-check)
+
+check: check-code test  # Full check (format + fix + type-check + test)
 
 
 # Help
@@ -66,4 +68,5 @@ help-code-quality:
 	@echo "======================="
 	@echo "ci				CI check (read-only: lint + type-check + test)"
 	@echo "check				Full check (format + fix + type-check + test)"
+	@echo "check-code			Check code (format + fix + type-check) without tests"
 	@echo ""

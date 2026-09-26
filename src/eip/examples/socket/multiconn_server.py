@@ -103,24 +103,25 @@ def main() -> None:
     """Run server."""
     listen_sock = create_listening_socket()
     sel = selectors.DefaultSelector()
+    # Пока небыло соединений, только слушаем
     sel.register(listen_sock, selectors.EVENT_READ, data=None)
 
     try:
         while True:
-            # Block until there are sockets ready for I/O.
+            # Block until there are sockets ready for I/O (read/write).
             events: EventsT = sel.select(timeout=None)
 
             for key, mask in events:
                 # New client have no socket data.
                 # Socket data will be set on connection accept.
 
+                # New client connection handling
                 if key.data is None:
-                    # New client connection handling
                     registered_sock = cast(socket.socket, key.fileobj)
                     accept_wrapper(registered_sock, sel)
 
+                # Existing client connection handling
                 else:
-                    # Existing client connection handling
                     service_connection(key, mask, sel)
 
     except KeyboardInterrupt:
