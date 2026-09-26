@@ -5,12 +5,6 @@
 # Socket commands
 # ===============
 
-run-socket-app-server:  # Run application socket server with args
-	poetry run python3 src/eip/infrastructure/endpoints/app_server.py '' 65432
-
-run-socket-app-client:  # Run application socket client with args
-	poetry run python3 src/eip/infrastructure/endpoints/app_client.py 127.0.0.1 65432 binary 😃
-
 # Docker http socket server commands
 # ----------------------------------
 
@@ -34,9 +28,6 @@ help-infra:
 	@echo ""
 	@echo "Socket commands"
 	@echo "==============="
-	@echo ""
-	@echo "run-socket-app-server		Run application socket server (with args)"
-	@echo "run-socket-app-client		Run application socket client (with args)"
 	@echo ""
 	@echo "build-socket-http-server	Build HTTP socket server Docker image"
 	@echo "run-socket-http-server		Run HTTP socket server Docker container on: 127.0.0.1:8001"
