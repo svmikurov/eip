@@ -47,3 +47,6 @@ listing-3-7:  # Использование селектора для постр�
 
 listing-4-1:  # Асинхронный контекстный менеджер, ожидающий подключения клиента
     poetry run python3 src/eip/examples/asyncio/chapter_04/listing_4_1.py
+
+listing-4-2:  # Отправка веб запроса с помощью aiohttp
+    poetry run python3 src/eip/examples/asyncio/chapter_04/listing_4_2.py

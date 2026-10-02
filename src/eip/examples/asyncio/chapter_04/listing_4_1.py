@@ -3,7 +3,7 @@
 import asyncio
 import socket
 from types import TracebackType
-from typing import Optional, Type
+from typing import Type
 
 
 class ConnectedSocket:
@@ -14,10 +14,10 @@ class ConnectedSocket:
         server_socket: socket.socket,
     ) -> None:
         self._server_socket = server_socket
-        self._connection = None
+        self._connection: socket.socket | None = None
 
     async def __aenter__(self) -> socket.socket:
-        print(f'Вход в контекстный менеджер, ожидающий подключение')
+        print('Вход в контекстный менеджер, ожидающий подключение')
 
         loop = asyncio.get_event_loop()
         connection, address = await loop.sock_accept(self._server_socket)
@@ -52,7 +52,7 @@ async def main() -> None:
 
     async with ConnectedSocket(server_socket) as connection:
         data = await loop.sock_recv(connection, 1024)
-        print(f'Получены данные {data}')
+        print(f'Получены данные {data!r}')
 
 
 if __name__ == '__main__':
