@@ -57,7 +57,7 @@ class ServerState:
 
             except ConnectionError as e:
                 logging.exception('Ошибка записи данных клиенту.', exc_info=e)
-                self._writes.remove(writer)
+                self._writes.remove(writer)  # noqa: B909
 
 
 async def main() -> None:

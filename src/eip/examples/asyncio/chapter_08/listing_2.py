@@ -22,7 +22,7 @@ async def make_request(
         protocol_factory=protocol_factory, host=host, port=port
     )
 
-    return await protocol.get_response()
+    return await protocol.get_response()  # type: ignore[attr-defined, no-any-return]
 
 
 async def main() -> None:
