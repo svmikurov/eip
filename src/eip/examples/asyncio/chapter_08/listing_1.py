@@ -1,7 +1,7 @@
 """Выполнение HTTP-запроса с помощью транспортного механизма и протокола."""
 
 import asyncio
-from asyncio import Transport, Future, AbstractEventLoop
+from asyncio import AbstractEventLoop, Future, Transport
 
 
 class HTTPGetClientTransportProtocol(asyncio.Protocol):
@@ -19,12 +19,12 @@ class HTTPGetClientTransportProtocol(asyncio.Protocol):
 
     async def get_response(self) -> Future:
         """Get response.
-        
+
         Ждать внутренний будущий объект,
         пока не будет получен ответ от сервера.
         """
         return await self._future
-    
+
     def _get_request_bytes(self) -> bytes:
         """Get request bytes."""
         request = (
@@ -33,7 +33,7 @@ class HTTPGetClientTransportProtocol(asyncio.Protocol):
             f'Host: {self._host}\r\n\r\n'
         )
         return request.encode()
-    
+
     def connection_made(self, transport: Transport) -> None:
         """Called when a connection is made."""
         print(f'Создано подключение к {self._host}')
@@ -44,7 +44,7 @@ class HTTPGetClientTransportProtocol(asyncio.Protocol):
 
     def data_received(self, data) -> None:
         """Called when some data is received."""
-        print(f'Получены данные!')
+        print('Получены данные!')
         # Получив данные, сохранить их во внутреннем буфере.
         self._response_buffer += data
 
@@ -54,11 +54,10 @@ class HTTPGetClientTransportProtocol(asyncio.Protocol):
         # скопировав в него данные из буфера.
         self._future.set_result(self._response_buffer.decode())
         return False
-    
+
     def connection_lost(self, exc: Exception | None) -> None:
         """Called when the connection is lost or closed."""
         if exc is None:
             print('Подключение закрыто без ошибок.')
         else:
             self._future.set_exception(exc)
-

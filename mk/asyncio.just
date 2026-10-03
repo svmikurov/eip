@@ -58,3 +58,6 @@ listing-4-2:  # Отправка веб запроса с помощью aiohttp
 
 listing-8-2:  # Использование протокола
     poetry run python3 src/eip/examples/asyncio/chapter_08/listing_2.py
+
+listing-8-12:  # Создание эхо-сервера с помощью серверных объектов
+    poetry run python3 src/eip/examples/asyncio/chapter_08/listing_12.py
