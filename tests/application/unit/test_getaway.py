@@ -1,4 +1,4 @@
-"""Requestor tests."""
+"""Message getaway tests."""
 
 from unittest.mock import Mock
 
