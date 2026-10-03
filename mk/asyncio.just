@@ -50,3 +50,11 @@ listing-4-1:  # Асинхронный контекстный менеджер, 
 
 listing-4-2:  # Отправка веб запроса с помощью aiohttp
     poetry run python3 src/eip/examples/asyncio/chapter_04/listing_4_2.py
+
+
+# =====================
+# Глава 8 Потоки данных
+# =====================
+
+listing-8-2:  # Использование протокола
+    poetry run python3 src/eip/examples/asyncio/chapter_08/listing_2.py
