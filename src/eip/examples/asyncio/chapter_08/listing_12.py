@@ -7,8 +7,8 @@ from asyncio import StreamReader, StreamWriter
 HOST = '127.0.0.1'
 PORT = 8000
 
-WRITER_GREETING = 'Добро пожаловать! Число подключенных пользователей: {}\n'
-NEW_CLIENT_MSG = 'Подключился новый пользователь!\n'
+NEW_CLIENT_GREETING = 'Добро пожаловать! Число подключенных пользователей: {}\n'
+EXISTING_CLIENT_NOTIFY = 'Подключился новый пользователь!\n'
 CLIENT_LOST_MSG = 'Клиент отключился! Осталось пользователейЖ {}!\n'
 
 
@@ -30,9 +30,9 @@ class ServerState:
 
     async def _on_connect(self, writer: StreamWriter) -> None:
         """Make on connection event."""
-        writer.write(WRITER_GREETING.format(len(self._writes)).encode())
+        writer.write(NEW_CLIENT_GREETING.format(len(self._writes)).encode())
         await writer.drain()
-        await self._notify_all(NEW_CLIENT_MSG)
+        await self._notify_all(EXISTING_CLIENT_NOTIFY)
 
     async def _echo(self, reader: StreamReader, writer: StreamWriter) -> None:
         """Handle client lost."""
