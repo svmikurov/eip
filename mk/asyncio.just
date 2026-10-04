@@ -61,3 +61,6 @@ listing-8-2:  # Использование протокола
 
 listing-8-12:  # Создание эхо-сервера с помощью серверных объектов
     poetry run python3 src/eip/examples/asyncio/chapter_08/listing_12.py
+
+listing-8-13:  # Запустить чат-сервер
+    poetry run python3 src/eip/examples/asyncio/chapter_08/listing_13.py
