@@ -67,3 +67,11 @@ listing-8-13:  # Запустить чат-сервер
 
 listing-8-14:  # Запустить клиента чат-сервера
     poetry run python3 src/eip/examples/asyncio/chapter_08/listing_14.py
+
+
+# ======================
+# Глава 9 Веб-приложения
+# ======================
+
+listing-9-1:  # Запустить сервер текущего времени
+    poetry run python3 src/eip/examples/asyncio/chapter_09/listing_01.py
