@@ -64,13 +64,13 @@ async def main() -> None:
     """Run server."""
     server_state = ServerState()
 
-    async def client_conne(
+    async def client_connected(
         reader: StreamReader,
         writer: StreamWriter,
     ) -> None:
         await server_state.add_client(reader, writer)
 
-    server = await asyncio.start_server(client_conne, HOST, PORT)
+    server = await asyncio.start_server(client_connected, HOST, PORT)
 
     async with server:
         await server.serve_forever()
