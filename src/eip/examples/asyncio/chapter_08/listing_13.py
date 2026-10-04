@@ -18,12 +18,14 @@ class ChatServer:
         """Запусти чат-сервер."""
         server = await asyncio.start_server(self._client_connected, host, port)
         async with server:
+            print('Сервер запущен')
             await server.serve_forever()
 
     async def _client_connected(
         self, reader: StreamReader, writer: StreamWriter
     ) -> None:
         """Обработай подключение клиента."""
+        print('Обработка запроса клиента на подключение')
         command = await reader.readline()
         print(f'CONNECTED {reader} {writer}')
         command, args = command.split(b' ')

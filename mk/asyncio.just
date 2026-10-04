@@ -64,3 +64,6 @@ listing-8-12:  # Создание эхо-сервера с помощью сер
 
 listing-8-13:  # Запустить чат-сервер
     poetry run python3 src/eip/examples/asyncio/chapter_08/listing_13.py
+
+listing-8-14:  # Запустить клиента чат-сервера
+    poetry run python3 src/eip/examples/asyncio/chapter_08/listing_14.py
