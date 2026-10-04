@@ -1,77 +1,84 @@
 """Создание эхо-сервера с помощью серверных объектов."""
 
 import asyncio
-import logging
-from asyncio import StreamReader, StreamWriter
 
 HOST = '127.0.0.1'
-PORT = 8000
-
-NEW_CLIENT_GREETING = 'Добро пожаловать! Число подключенных пользователей: {}\n'
-EXISTING_CLIENT_NOTIFY = 'Подключился новый пользователь!\n'
-CLIENT_LOST_MSG = 'Клиент отключился! Осталось пользователейЖ {}!\n'
+PORT = 8888
 
 
 class ServerState:
-    """Server state."""
+    """Состояние эхо-сервера."""
 
     def __init__(self) -> None:
-        self._writes: list[StreamWriter] = []
+        # Состояние хранит открытые подключенным клиентам
+        # каналы для отправки клиентам сообщений.
+        self._writers: list[asyncio.StreamWriter] = []
 
     async def add_client(
         self,
-        reader: StreamReader,
-        writer: StreamWriter,
+        reader: asyncio.StreamReader,
+        writer: asyncio.StreamWriter,
     ) -> None:
-        """Add server client."""
-        self._writes.append(writer)
+        """Добавь вновь подключенного клиента. """
+        self._writers.append(writer)
         await self._on_connect(writer)
         asyncio.create_task(self._echo(reader, writer))
 
-    async def _on_connect(self, writer: StreamWriter) -> None:
-        """Make on connection event."""
-        writer.write(NEW_CLIENT_GREETING.format(len(self._writes)).encode())
-        await writer.drain()
-        await self._notify_all(EXISTING_CLIENT_NOTIFY)
-
-    async def _echo(self, reader: StreamReader, writer: StreamWriter) -> None:
-        """Handle client lost."""
+    async def _echo(
+        self,
+        reader: asyncio.StreamReader,
+        writer: asyncio.StreamWriter,
+    ) -> None:
         try:
-            while (data := await reader.readline()) != b'':
+            while (data := await reader.read()) != b'':
                 writer.write(data)
                 await writer.drain()
-
-            self._writes.remove(writer)
-            await self._notify_all(CLIENT_LOST_MSG.format(len(self._writes)))
+            
+            self._writers.remove(writer)
+            await self._notify_all(
+                 f'Клиент отключился! Осталось пользователей: '
+                 f'{len(self._writers)}!\n'
+            )
 
         except Exception as e:
-            logging.exception('Ошибка чтения данных от клиента.', exc_info=e)
-            self._writes.remove(writer)
+            print('Ошибка чтения данных от клиента')
+            self._writers.remove(writer)
+
+    async def _on_connect(self, writer: asyncio.StreamWriter) -> None:
+        """Запускает регламент при подключении нового клиента."""
+        writer.write(
+            f'Добро пожаловать! Число подключенных пользователей: '
+            f'{len(self._writers)}\n'.encode()
+        )
+        await writer.drain()
+        await self._notify_all('Подключился новый пользователь!\n')
 
     async def _notify_all(self, message: str) -> None:
-        """Notify all writers."""
-        for writer in self._writes:
+        """Уведоми всех подключенных клиентов."""
+        for writer in self._writers:
             try:
-                writer.write(message.encode())
+                writer.write(f'{message}'.encode())
                 await writer.drain()
-
             except ConnectionError as e:
-                logging.exception('Ошибка записи данных клиенту.', exc_info=e)
-                self._writes.remove(writer)  # noqa: B909
+                print(
+                    'Ошибка записи данных клиенту. '
+                    'Клиент удаляется из списка подключенных.'
+                )
+                self._writers.remove(writer)
 
 
-# REFACTOR: создать класс Server для инкапсуляции запуска
 async def main() -> None:
-    """Run server."""
+    """Запусти сервер."""
     server_state = ServerState()
 
-    async def client_connected(
-        reader: StreamReader,
-        writer: StreamWriter,
+    async def client_connected_cb(
+        reader: asyncio.StreamReader,
+        writer: asyncio.StreamWriter,
     ) -> None:
+        """Обработай событие подключения клиента."""
         await server_state.add_client(reader, writer)
 
-    server = await asyncio.start_server(client_connected, HOST, PORT)
+    server = await asyncio.start_server(client_connected_cb, HOST, PORT)
 
     async with server:
         await server.serve_forever()
