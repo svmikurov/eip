@@ -2,7 +2,7 @@
 
 import asyncio
 
-from .util import delay
+from ..util import delay
 
 
 async def add_one(number: int) -> int:

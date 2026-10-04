@@ -19,7 +19,7 @@ class ServerState:
         reader: asyncio.StreamReader,
         writer: asyncio.StreamWriter,
     ) -> None:
-        """Добавь вновь подключенного клиента. """
+        """Добавь вновь подключенного клиента."""
         self._writers.append(writer)
         await self._on_connect(writer)
         asyncio.create_task(self._echo(reader, writer))
@@ -33,14 +33,14 @@ class ServerState:
             while (data := await reader.read()) != b'':
                 writer.write(data)
                 await writer.drain()
-            
+
             self._writers.remove(writer)
             await self._notify_all(
-                 f'Клиент отключился! Осталось пользователей: '
-                 f'{len(self._writers)}!\n'
+                f'Клиент отключился! Осталось пользователей: '
+                f'{len(self._writers)}!\n'
             )
 
-        except Exception as e:
+        except Exception:
             print('Ошибка чтения данных от клиента')
             self._writers.remove(writer)
 
@@ -55,11 +55,12 @@ class ServerState:
 
     async def _notify_all(self, message: str) -> None:
         """Уведоми всех подключенных клиентов."""
-        for writer in self._writers:
+        for writer in self._writers.copy():
             try:
                 writer.write(f'{message}'.encode())
                 await writer.drain()
-            except ConnectionError as e:
+
+            except ConnectionError:
                 print(
                     'Ошибка записи данных клиенту. '
                     'Клиент удаляется из списка подключенных.'
