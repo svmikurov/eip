@@ -60,6 +60,7 @@ class ServerState:
                 self._writes.remove(writer)  # noqa: B909
 
 
+# REFACTOR: создать класс Server для инкапсуляции запуска
 async def main() -> None:
     """Run server."""
     server_state = ServerState()
