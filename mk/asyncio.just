@@ -52,6 +52,14 @@ listing-4-2:  # Отправка веб запроса с помощью aiohttp
     poetry run python3 src/eip/examples/asyncio/chapter_04/listing_4_2.py
 
 
+# =========================================
+# Глава 5 Неблокирующие драйверы баз данных
+# =========================================
+
+listing-5-1:  # Подключение к postgreSQL
+    poetry run python3 src/eip/examples/asyncio/chapter_05/listing_01.py
+
+
 # =====================
 # Глава 8 Потоки данных
 # =====================
