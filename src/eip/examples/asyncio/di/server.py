@@ -2,13 +2,14 @@
 
 from typing import Any
 
-import asyncpg
 from aiohttp import web
 from aiohttp.web_app import Application
 from aiohttp.web_request import Request
 from aiohttp.web_response import Response
 from asyncpg import Record
 from asyncpg.pool import Pool
+
+from eip.examples.asyncio.di.container import MainContainer
 
 DATABASE_HOST = '127.0.0.1'
 DATABASE_PORT = '5432'
@@ -22,28 +23,6 @@ DATABASE_KEY = 'database'
 routes = web.RouteTableDef()
 
 
-async def create_database_poll(app: Application) -> None:
-    """Create a database pool."""
-    print('Создается пул подключений.')
-    pool: Pool = await asyncpg.create_pool(
-        host=DATABASE_HOST,
-        port=DATABASE_PORT,
-        user=DATABASE_USER,
-        password=DATABASE_PASS,
-        database=DATABASE_NAME,
-        min_size=MIN_SIZE,
-        max_size=MAX_SIZE,
-    )
-    app[DATABASE_KEY] = pool
-
-
-async def destroy_database_pool(app: Application) -> None:
-    """Destroy a database pool."""
-    print('Уничтожается пул подключений.')
-    pool: Pool = app[DATABASE_KEY]
-    await pool.close()
-
-
 @routes.get('/products')
 async def products(request: Request) -> Response:
     """Render products."""
@@ -51,16 +30,39 @@ async def products(request: Request) -> Response:
     products_query = 'SELECT product_id, product_name from product'
     results: list[Record] = await connection.fetch(products_query)
     result_as_dict: list[dict[str, Any]] = [dict(brand) for brand in results]
-    print(f'{result_as_dict = }')
+    print(f'Server data: {result_as_dict = }')
     return web.json_response(result_as_dict)
+
+
+async def on_startup(app: Application) -> None:
+    """Create a database pool."""
+    container = app['container']
+    await container.init_resources()
+    app[DATABASE_KEY] = await container.db_conn_pool()
+
+
+async def on_cleanup(app: Application) -> None:
+    """Destroy a database pool."""
+    print('\nУничтожается пул подключений.')
+    await app['container'].shutdown_resources()
 
 
 def main() -> None:
     """Run server."""
-    app = web.Application()
+    container = MainContainer()
+    container.config.db.host.from_value('127.0.0.1')
+    container.config.db.port.from_value(5432)
+    container.config.db.user.from_value('postgres')
+    container.config.db.password.from_value('password')
+    container.config.db.name.from_value('postgres')
+    container.config.db.min_size.from_value(6)
+    container.config.db.max_size.from_value(6)
 
-    app.on_startup.append(create_database_poll)
-    app.on_cleanup.append(destroy_database_pool)
+    app = web.Application()
+    app['container'] = container
+
+    app.on_startup.append(on_startup)
+    app.on_cleanup.append(on_cleanup)
 
     app.add_routes(routes)
     web.run_app(app)

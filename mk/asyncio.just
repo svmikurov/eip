@@ -89,3 +89,10 @@ listing-9-2:  # Подключение к базе данных о товара�
 
 listing-9-3:  # Подключение к postgreSQL
     poetry run python3 src/eip/examples/asyncio/chapter_09/listing_03.py
+
+# ================
+# Asyncio examples
+# ================
+
+example-run-server:  # Запустить пример сервера
+    poetry run python3 src/eip/examples/asyncio/di/server.py
