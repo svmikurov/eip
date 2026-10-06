@@ -11,10 +11,8 @@
   "python.analysis.autoSearchPaths": true,
   "python.analysis.indexing": true,
   "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.diagnosticMode": "workspace",
   // Extensions //
-  // Code spell
-  "cSpell.enabled": true,
-  "cSpell.language": "en,ru",
   // TODO tree
   "todo-tree.general.tags": [
     "TODO:",      // 📝 Task to be done
@@ -61,6 +59,7 @@
   },
   // Word cspell
   "cSpell.enabled": true,
+  "cSpell.language": "en,ru",
   "cSpell.customDictionaries": {
     "project-words": {
       "file": ".cspell.json",
@@ -69,5 +68,5 @@
   },
   "makefile.configureOnOpen": false,
   "python-envs.defaultEnvManager": "ms-python.python:poetry",
-  "python-envs.defaultPackageManager": "ms-python.python:poetry"
+  "python-envs.defaultPackageManager": "ms-python.python:poetry",
 }

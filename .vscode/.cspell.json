@@ -15,6 +15,9 @@
     "pytest",
     "fastapi",
     "sse_starlette",
+    "asyncio",
+    "aiohttp",
+    "asyncpg",
     // Dependency objects
     "autouse",
     "usefixtures",
@@ -23,8 +26,10 @@
     "версионирования",
     "сратегия",
     "ендпойнтов",
-    // 
+    // Proper name
     "Микуров",
+    "Пайтон",
+    "Фибоначи",
     // -- Sockets --
     "reuseaddr",          // Reuse socket addrres on restart
     "optname",            // Option name
@@ -35,7 +40,7 @@
     "outb",
     "fileobj",            // File object
     "connid",             // Connection ID
-    "multiconn",          // Multy-connection
+    "multiconn"           // Multy-connection
     // - EndSockets -
-  ],
+  ]
 }
