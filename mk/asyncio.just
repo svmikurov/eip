@@ -83,3 +83,6 @@ listing-8-14:  # Запустить клиента чат-сервера
 
 listing-9-1:  # Запустить сервер текущего времени
     poetry run python3 src/eip/examples/asyncio/chapter_09/listing_01.py
+
+listing-9-3:  # Подключение к postgreSQL
+    poetry run python3 src/eip/examples/asyncio/chapter_09/listing_03.py
