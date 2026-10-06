@@ -1,5 +1,5 @@
 # =============================================================================
-# Asuncio study just commands
+# Asyncio study just commands
 # =============================================================================
 
 set working-directory := '..'
@@ -7,13 +7,13 @@ set working-directory := '..'
 listing-1-2:  # Процессы и потоки в простом Python приложении
     python3 src/eip/examples/asyncio/chapter_01/listing_1_2.py
 
-listing-1-3:  # Создание многопоточного Пайтон процсса
+listing-1-3:  # Создание многопоточного Пайтон процесса
     python3 src/eip/examples/asyncio/chapter_01/listing_1_3.py
 
 listing-1-4:  # Создание нескольких процессов
     python3 src/eip/examples/asyncio/chapter_01/listing_1_4.py
 
-listing-1-5:  # Гененрирование последовательности Фибоначи и его хронометраж
+listing-1-5:  # Генерирование последовательности Фибоначи и его хронометраж
     python3 src/eip/examples/asyncio/chapter_01/listing_1_5.py
 
 listing-2-7:  # Выполнение двух сопрограмм
@@ -83,6 +83,9 @@ listing-8-14:  # Запустить клиента чат-сервера
 
 listing-9-1:  # Запустить сервер текущего времени
     poetry run python3 src/eip/examples/asyncio/chapter_09/listing_01.py
+
+listing-9-2:  # Подключение к базе данных о товарах
+    poetry run python3 src/eip/examples/asyncio/chapter_09/listing_02.py
 
 listing-9-3:  # Подключение к postgreSQL
     poetry run python3 src/eip/examples/asyncio/chapter_09/listing_03.py

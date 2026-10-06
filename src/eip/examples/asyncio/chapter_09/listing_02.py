@@ -1,4 +1,4 @@
-"""Подключение к базеданных о товарах."""
+"""Подключение к базе данных о товарах."""
 
 from typing import Any
 
@@ -22,7 +22,7 @@ DATABASE_KEY = 'database'
 routes = web.RouteTableDef()
 
 
-async def create_dtabase_poll(app: Application) -> None:
+async def create_database_poll(app: Application) -> None:
     """Create a database pool."""
     print('Создается пул подключений.')
     pool: Pool = await asyncpg.create_pool(
@@ -44,13 +44,13 @@ async def destroy_database_pool(app: Application) -> None:
     await pool.close()
 
 
-@routes.get('products/')
+@routes.get('/products')
 async def products(request: Request) -> Response:
     """Render products."""
     connection: Pool = request.app[DATABASE_KEY]
-    products_query = 'SELECT brand_id, brend_name fron products'
+    products_query = 'SELECT brand_id, brand_name from products'
     results: list[Record] = await connection.fetch(products_query)
-    result_as_dict: list[dict[str, Any]] = [dict(brend) for brend in results]
+    result_as_dict: list[dict[str, Any]] = [dict(brand) for brand in results]
     return web.json_response(result_as_dict)
 
 
@@ -58,7 +58,7 @@ def main() -> None:
     """Run server."""
     app = web.Application()
 
-    app.on_startup.append(create_dtabase_poll)
+    app.on_startup.append(create_database_poll)
     app.on_cleanup.append(destroy_database_pool)
 
     app.add_routes(routes)
