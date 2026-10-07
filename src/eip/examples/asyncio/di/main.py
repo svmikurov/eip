@@ -1,13 +1,10 @@
-"""Подключение к базе данных о товарах."""
+"""Запуск сервера."""
 
 from typing import Any
 
 from aiohttp import web
 from aiohttp.web_app import Application
-from aiohttp.web_request import Request
-from aiohttp.web_response import Response
-from asyncpg import Record
-from asyncpg.pool import Pool
+from .entrypoints import routes
 
 from eip.examples.asyncio.di.container import MainContainer
 
@@ -20,24 +17,13 @@ MIN_SIZE = 6
 MAX_SIZE = 6
 
 DATABASE_KEY = 'database'
-routes = web.RouteTableDef()
-
-
-@routes.get('/products')
-async def products(request: Request) -> Response:
-    """Render products."""
-    connection: Pool = request.app[DATABASE_KEY]
-    products_query = 'SELECT product_id, product_name from product'
-    results: list[Record] = await connection.fetch(products_query)
-    result_as_dict: list[dict[str, Any]] = [dict(brand) for brand in results]
-    print(f'Server data: {result_as_dict = }')
-    return web.json_response(result_as_dict)
 
 
 async def on_startup(app: Application) -> None:
     """Create a database pool."""
     container = app['container']
     await container.init_resources()
+    app[DATABASE_KEY] = await container.db_conn_pool()
     app[DATABASE_KEY] = await container.db_conn_pool()
 
 
