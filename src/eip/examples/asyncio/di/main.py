@@ -1,20 +1,21 @@
 """Запуск сервера."""
 
-from typing import Any
-
 from aiohttp import web
 from aiohttp.web_app import Application
-from .entrypoints import routes
 
 from eip.examples.asyncio.di.container import MainContainer
 
-DATABASE_HOST = '127.0.0.1'
-DATABASE_PORT = '5432'
-DATABASE_USER = 'postgres'
-DATABASE_PASS = 'password'
-DATABASE_NAME = 'postgres'
-MIN_SIZE = 6
-MAX_SIZE = 6
+from .entrypoints import routes
+
+DATABASE = {
+    'host': '127.0.0.1',
+    'port': '5432',
+    'user': 'postgres',
+    'password': 'password',
+    'database': 'postgres',
+    'min_size': 6,
+    'max_size': 6,
+}
 
 DATABASE_KEY = 'database'
 
@@ -36,13 +37,7 @@ async def on_cleanup(app: Application) -> None:
 def main() -> None:
     """Run server."""
     container = MainContainer()
-    container.config.db.host.from_value('127.0.0.1')
-    container.config.db.port.from_value(5432)
-    container.config.db.user.from_value('postgres')
-    container.config.db.password.from_value('password')
-    container.config.db.name.from_value('postgres')
-    container.config.db.min_size.from_value(6)
-    container.config.db.max_size.from_value(6)
+    container.config.db.from_dict(DATABASE)
 
     app = web.Application()
     app['container'] = container

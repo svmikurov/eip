@@ -8,8 +8,6 @@ from aiohttp.web_response import Response
 from asyncpg import Record
 from asyncpg.pool import Pool
 
-from eip.examples.asyncio.di.container import MainContainer
-
 DATABASE_KEY = 'database'
 routes = web.RouteTableDef()
 

@@ -2,14 +2,14 @@
 
 from dataclasses import asdict
 
-from .domain import Product
 from .abstract import AbstractRepository
+from .domain import Product
 
 
 class ProductUseCases:
     """Product use cases."""
 
-    def __init__(self, repo: AbstractRepository) -> None:
+    def __init__(self, repo: AbstractRepository[Product]) -> None:
         self._repo = repo
 
     async def get_products(self) -> list[dict[str, str | int]]:
