@@ -3,13 +3,13 @@
 from aiohttp import web
 from aiohttp.web_app import Application
 
-from eip.examples.asyncio.di.container import MainContainer
-
-from .entrypoints import routes
+from . import entrypoints  # noqa: F401  ← ВАЖНО: импорт, чтобы сработали декораторы
+from .container import MainContainer
+from .routes import routes
 
 DATABASE = {
     'host': '127.0.0.1',
-    'port': '5432',
+    'port': 5432,
     'user': 'postgres',
     'password': 'password',
     'database': 'postgres',
@@ -17,15 +17,22 @@ DATABASE = {
     'max_size': 6,
 }
 
-DATABASE_KEY = 'database'
+
+def create_container() -> MainContainer:
+    """Create main DI container."""
+    container = MainContainer()
+    container.config.db.from_dict(DATABASE)
+    container.wire(modules=['.entrypoints'])
+    return container
 
 
 async def on_startup(app: Application) -> None:
     """Create a database pool."""
-    container = app['container']
-    await container.init_resources()
-    app[DATABASE_KEY] = await container.db_conn_pool()
-    app[DATABASE_KEY] = await container.db_conn_pool()
+    container: MainContainer | None = app['container']
+    if container is None:
+        raise RuntimeError()
+    await container.init_resources()  # type: ignore[misc]
+    print('Создан пул подключений.')
 
 
 async def on_cleanup(app: Application) -> None:
@@ -36,11 +43,8 @@ async def on_cleanup(app: Application) -> None:
 
 def main() -> None:
     """Run server."""
-    container = MainContainer()
-    container.config.db.from_dict(DATABASE)
-
     app = web.Application()
-    app['container'] = container
+    app['container'] = create_container()
 
     app.on_startup.append(on_startup)
     app.on_cleanup.append(on_cleanup)

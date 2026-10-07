@@ -14,7 +14,7 @@ class PostgresProductRepository(AbstractRepository[Product]):
 
     async def list_all(self) -> list[Product]:
         """Get all products."""
-        query = 'SELECT brand_id, brand_name FROM product'
+        query = 'SELECT product_id, product_name FROM product'
         async with self._pool.acquire() as conn:
             rows = await conn.fetch(query)
         return [
