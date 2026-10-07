@@ -30,6 +30,7 @@
     "Микуров",
     "Пайтон",
     "Фибоначи",
+    "Фаулер",
     // -- Sockets --
     "reuseaddr",          // Reuse socket addrres on restart
     "optname",            // Option name
