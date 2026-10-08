@@ -98,5 +98,11 @@ listing-9-3:  # Подключение к postgreSQL
 example-run-server:  # Запустить пример сервера
     poetry run python3 -m eip.examples.asyncio.di.main
 
-example-run-listing-9-9:
+example-run-listing-9-9:  # Run Starlatte application (di)
     poetry run uvicorn --workers 1 eip.examples.asyncio.di.web.starlatte.main:app
+
+example-run-listing-9-11:
+    poetry run gunicorn \
+        --pythonpath src/eip/examples/asyncio/di/web/django \
+        async_views.asgi:application \
+        -k uvicorn.workers.UvicornWorker

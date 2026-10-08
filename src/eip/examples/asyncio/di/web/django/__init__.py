@@ -1,0 +1,1 @@
+"""Async examples Django application."""
