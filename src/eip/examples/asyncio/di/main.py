@@ -3,9 +3,9 @@
 from aiohttp import web
 from aiohttp.web_app import Application
 
-from . import entrypoints  # noqa: F401  ← ВАЖНО: импорт, чтобы сработали декораторы
 from .container import MainContainer
 from .routes import routes
+from .web.aiohttp import views as aiohttp_views  # noqa: F401  ← ВАЖНО: импорт, чтобы сработали декораторы
 
 DATABASE = {
     'host': '127.0.0.1',
@@ -22,7 +22,7 @@ def create_container() -> MainContainer:
     """Create main DI container."""
     container = MainContainer()
     container.config.db.from_dict(DATABASE)
-    container.wire(modules=['.entrypoints'])
+    container.wire(modules=['.aiohttp_views'])
     return container
 
 

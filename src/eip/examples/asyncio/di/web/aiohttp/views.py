@@ -1,4 +1,4 @@
-"""HTTP entrypoints."""
+"""aiohttp views."""
 
 from typing import Annotated
 
@@ -7,9 +7,9 @@ from aiohttp.web_request import Request
 from aiohttp.web_response import Response
 from dependency_injector.wiring import Provide, inject
 
-from .abstract import AbstractUseCase
-from .container import MainContainer
-from .routes import routes
+from eip.examples.asyncio.di.abstract import AbstractUseCase
+from eip.examples.asyncio.di.container import MainContainer
+from eip.examples.asyncio.di.routes import routes
 
 
 @routes.get('/products')  # type: ignore[arg-type]
