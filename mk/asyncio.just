@@ -91,6 +91,16 @@ listing-9-3:  # Подключение к postgreSQL
     poetry run python3 -m eip.examples.asyncio.chapter_09.listing_03
 
 
+# =====================
+# Глава 10 Микросервисы
+# =====================
+
+listing-10-1:  # Запустить сервис наличия на складе
+    poetry run python3 src/eip/examples/asyncio/chapter_10/listing_01.py
+
+listing-10-5:  # Запустить сервис избранного
+    poetry run python3 -m eip.examples.asyncio.chapter_10.listing_05
+
 # ================
 # Asyncio examples
 # ================
