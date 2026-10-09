@@ -101,6 +101,9 @@ listing-10-1:  # Запустить сервис наличия на склад�
 listing-10-5:  # Запустить сервис избранного
     poetry run python3 -m eip.examples.asyncio.chapter_10.listing_05
 
+listing-10-6:  # Запустить сервис корзины
+    poetry run python3 -m eip.examples.asyncio.chapter_10.listing_06
+
 # ================
 # Asyncio examples
 # ================
