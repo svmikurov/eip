@@ -1,1 +1,0 @@
-"""HTTP entrypoint Stock service."""
