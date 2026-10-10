@@ -7,9 +7,9 @@ from aiohttp.web_request import Request
 from aiohttp.web_response import Response
 from dependency_injector.wiring import Provide, inject
 
-from eip.examples.asyncio.di.abstract import AbstractUseCase
-from eip.examples.asyncio.di.container import MainContainer
-from eip.examples.asyncio.di.routes import routes
+from async_ds.di.abstract import AbstractUseCase
+from async_ds.di.container import MainContainer
+from async_ds.di.routes import routes
 
 
 @routes.get('/products')  # type: ignore[arg-type]

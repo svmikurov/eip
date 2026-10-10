@@ -3,7 +3,7 @@
 import asyncio
 from asyncio import AbstractEventLoop
 
-from eip.examples.asyncio.chapter_08.listing_1 import (
+from async_ds.book.chapter_08.listing_1 import (
     HTTPGetClientTransportProtocol,
 )
 

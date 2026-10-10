@@ -6,7 +6,7 @@ from aiohttp import web
 from aiohttp.web_request import Request
 from aiohttp.web_response import Response
 
-from eip.examples.asyncio.chapter_10.listing_04 import (
+from async_ds.book.chapter_10.listing_04 import (
     DATABASE_KEY,
     create_database_pool,
     destroy_database_pool,

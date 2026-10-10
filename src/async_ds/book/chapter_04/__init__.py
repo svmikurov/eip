@@ -2,7 +2,7 @@
 
 from aiohttp import ClientSession
 
-from eip.examples.asyncio.util import async_timed
+from async_ds.book.util import async_timed
 
 
 @async_timed()

@@ -7,16 +7,16 @@ import tty
 from asyncio import StreamReader, StreamWriter
 from typing import Deque
 
-from eip.examples.asyncio.chapter_08.listing_5 import create_stdin_reader
-from eip.examples.asyncio.chapter_08.listing_7 import (
+from async_ds.book.chapter_08.listing_5 import create_stdin_reader
+from async_ds.book.chapter_08.listing_7 import (
     delete_line,
     move_to_bottom_of_screen,
     move_to_top_of_screen,
     restore_cursor_position,
     save_cursor_position,
 )
-from eip.examples.asyncio.chapter_08.listing_8 import read_line
-from eip.examples.asyncio.chapter_08.listing_9 import MessageStore
+from async_ds.book.chapter_08.listing_8 import read_line
+from async_ds.book.chapter_08.listing_9 import MessageStore
 
 HOST = '127.0.0.1'
 PORT = 8888

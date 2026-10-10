@@ -4,8 +4,9 @@ import asyncio
 
 import aiohttp
 
-from eip.examples.asyncio.chapter_04 import fetch_status
-from eip.examples.asyncio.util import async_timed
+from async_ds.book.util import async_timed
+
+from . import fetch_status
 
 URL = 'http://mail.ru'
 

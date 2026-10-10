@@ -2,7 +2,7 @@
 
 import asyncio
 
-from ..util import delay
+from async_ds.book.util import delay
 
 
 async def main() -> None:
